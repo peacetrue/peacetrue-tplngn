@@ -1,0 +1,9 @@
+plugins {
+    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}" apply(false)
+}
+
+group "com.github.peacetrue.template"
+version "${peaceTemplateVersion}${tailSnapshot}"
+description "目录模板引擎"
+
+apply plugin: "com.github.peacetrue.gradle.build-convention"

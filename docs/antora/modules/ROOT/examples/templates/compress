@@ -1,0 +1,12 @@
+#!/bin/bash
+
+rm -rf antora.tar antora.zip antora.jar
+tar -cf antora.tar antora antora-variable.adoc antora-options.properties antora-variables.properties default-options.properties
+zip -rq antora.zip antora antora-variable.adoc antora-options.properties antora-variables.properties default-options.properties
+jar -cf antora.jar antora antora-variable.adoc antora-options.properties antora-variables.properties default-options.properties
+
+rm -rf antora-module.zip antora-module.jar
+zip -rq antora-module.zip antora-module antora-module-variable.adoc antora-module-options.properties antora-module-variables.properties default-options.properties
+jar -cf antora-module.jar antora-module antora-module-variable.adoc antora-module-options.properties antora-module-variables.properties default-options.properties
+
+./shell-log

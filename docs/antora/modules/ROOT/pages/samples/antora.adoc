@@ -1,0 +1,36 @@
+= Antora 目录模板
+
+*Antora 目录模板* 用于创建一个符合 https://docs.antora.org/antora/latest/standard-directories/[Antora 标准文件结构^] 的资源库。
+
+== 文件结构
+
+*Antora 目录模板* 文件结构如下：
+
+[source%nowrap,tree]
+----
+include::example$shell-log/antora.txt[]
+----
+
+== 变量说明
+
+*Antora 目录模板* 中使用到的变量如下：
+
+include::partial$antora-variable.adoc[tag=content]
+
+== 压缩包内容
+
+[source%nowrap,log]
+----
+include::example$shell-log/antora-ls.txt[]
+----
+
+下载 link:{attachmentsdir}/templates/antora.zip[antora.zip^]。
+
+== 生成结果
+
+生成结果文件结构如下：
+
+[source%nowrap,log]
+----
+include::example$shell-log/learn.txt[]
+----

@@ -1,0 +1,44 @@
+plugins {
+    id "org.springframework.boot" version "${springBootPluginVersion}"
+}
+
+description "目录模板引擎命令行功能"
+
+ext {
+    isPublishDisabled = true
+    skipTest = true
+}
+
+dependencies {
+    implementation platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+
+    api project(":peacetrue-template-engine")
+    api project(":peacetrue-template-velocity")
+    api project(":peacetrue-template-spring")
+    implementation "com.google.guava:guava"
+    implementation "org.apache.commons:commons-lang3"
+    implementation "com.github.peacetrue:peacetrue-common"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-beans"
+    implementation "org.springframework.boot:spring-boot-starter-json"
+    implementation "org.springframework.shell:spring-shell-starter:2.0.0.RELEASE"
+}
+
+
+bootJar.finalizedBy("copyJarToTemplates")
+task copyJarToTemplates(group: "peacetrue") {
+    doLast {
+        String templatesDir = "$rootDir/docs/antora/modules/ROOT/examples/templates"
+        delete {
+            delete("${templatesDir}/template-engine.jar")
+        }
+        copy {
+            from "$buildDir/libs/peacetrue-template-shell-${version}.jar" into "${templatesDir}"
+            rename("peacetrue-template-shell-${version}.jar", "template-engine.jar")
+        }
+        exec {
+            workingDir "$templatesDir"
+            environment 'PATH', "${environment.PATH}:/usr/local/bin"
+            commandLine "./quick-start.sh"
+        }
+    }
+}

@@ -1,0 +1,33 @@
+learn-redis
+|-- docs
+|   `-- antora
+|       `-- modules
+|           `-- ROOT
+|               `-- pages
+|                   `-- learn-redis.adoc
+`-- learn-redis
+    |-- build.gradle
+    |-- gradle
+    |   `-- wrapper
+    |       |-- gradle-wrapper.jar
+    |       `-- gradle-wrapper.properties
+    |-- gradle.properties
+    |-- gradlew
+    |-- gradlew.bat
+    |-- settings.gradle
+    `-- src
+        |-- main
+        |   |-- java
+        |   |   `-- com
+        |   |       `-- github
+        |   |           `-- peacetrue
+        |   |               `-- learn
+        |   |                   `-- redis
+        |   `-- resources
+        `-- test
+            |-- java
+            `-- resources
+                |-- logback.xml
+                `-- logback.xsd
+
+20 directories, 10 files

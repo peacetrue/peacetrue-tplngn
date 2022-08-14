@@ -1,0 +1,30 @@
+antora-module
+|-- ${module.directoryName}
+|   |-- build.gradle.vm
+|   |-- gradle
+|   |   `-- wrapper
+|   |       |-- gradle-wrapper.jar
+|   |       `-- gradle-wrapper.properties
+|   |-- gradle.properties.vm
+|   |-- gradlew
+|   |-- gradlew.bat
+|   |-- settings.gradle.vm
+|   `-- src
+|       |-- main
+|       |   |-- java
+|       |   |   `-- ${clazz.path(${repository.packageName})}
+|       |   |       `-- ${uc.lu(${module.name})}
+|       |   `-- resources
+|       `-- test
+|           |-- java
+|           `-- resources
+|               |-- logback.xml.vm
+|               `-- logback.xsd
+`-- docs
+    `-- antora
+        `-- modules
+            `-- ROOT
+                `-- pages
+                    `-- ${module.directoryName}.adoc.vm
+
+17 directories, 10 files

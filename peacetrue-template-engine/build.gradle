@@ -1,0 +1,27 @@
+description "目录模板引擎"
+
+dependencies {
+    compileOnly "org.slf4j:slf4j-api"
+    implementation "com.github.peacetrue:peacetrue-common"
+    compileOnly "org.springframework:spring-beans"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-beans"
+    implementation "org.apache.commons:commons-lang3"
+    implementation "org.apache.commons:commons-io"
+
+    testImplementation project(":peacetrue-template-velocity")
+    testImplementation "org.springframework:spring-beans"
+    testImplementation "com.fasterxml.jackson.core:jackson-databind"
+    testImplementation "org.apache.velocity:velocity-engine-core"
+    testImplementation "org.apache.velocity.tools:velocity-tools-generic"
+}
+
+jar.finalizedBy("compressAntora")
+task compressAntora(group: "peacetrue") {
+    doLast {
+        exec {
+            workingDir "$rootDir/docs/antora/modules/ROOT/examples/templates"
+            environment 'PATH', "${environment.PATH}:/usr/local/bin"
+            commandLine "./compress"
+        }
+    }
+}

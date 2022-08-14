@@ -1,0 +1,59 @@
+= 简介
+:website: https://peacetrue.github.io
+:app-name: peacetrue-template
+:foresight-repo-id: 1f16fe7d-581e-4b91-a2e2-9dfac8983b87
+:imagesdir: docs/antora/modules/ROOT/assets/images
+
+image:https://img.shields.io/lgtm/grade/java/github/peacetrue/{app-name}["LGTM Grade",link="https://lgtm.com/projects/g/peacetrue/{app-name}"]
+image:https://snyk.io/test/github/peacetrue/{app-name}/badge.svg["Snyk",link="https://app.snyk.io/org/peacetrue"]
+image:https://img.shields.io/github/workflow/status/peacetrue/{app-name}/build/master["GitHub Workflow Status",link="https://github.com/peacetrue/{app-name}/actions"]
+image:https://foresight.service.thundra.io/public/api/v1/badge/success?repoId={foresight-repo-id}["Foresight",link="https://foresight.thundra.io/repositories/github/peacetrue/{app-name}/test-runs"]
+image:https://img.shields.io/codecov/c/github/peacetrue/{app-name}/master["Codecov",link="https://app.codecov.io/gh/peacetrue/{app-name}"]
+
+//@formatter:off
+{website}/{app-name}/[{app-name}] 是一个基于 Java 的目录模板引擎组件，用于渲染指定目录下的一套模板。
+
+== 缘由
+
+常规模板引擎（区别于目录模板引擎）只能渲染单个模板，在代码生成场景中，需要渲染一套模板，此时可以使用目录模板引擎。
+
+== 原理
+
+模板引擎的工作原理如下：
+
+image::TemplateEngineFlow.png[]
+
+当模板引擎为常规模板引擎时，模板通常为单个文件，结果也为单个文件；
+当模板引擎为目录模板引擎时，模板会包含多个文件，结果也包含多个文件，此时模板可称为目录模板。
+目录模板引擎会使用常规模板引擎依次渲染目录模板中的多个文件。
+
+== 术语
+
+目录模板::
+通常模板为单个文件，目录模板中包含多个文件，可以是文件系统的目录，也可以是压缩包。
+目录模板引擎::
+用于渲染目录模板的模板引擎。
+
+== 前提
+
+目录模板引擎基于 Java 开发，使用时要求系统上具有 Java 运行环境，版本在 1.8 及以上。可使用如下命令检查：
+
+.java
+[source%nowrap,bash]
+----
+$ java -version
+
+java version "1.8.0_51"
+Java(TM) SE Runtime Environment (build 1.8.0_51-b16)
+Java HotSpot(TM) 64-Bit Server VM (build 25.51-b03, mixed mode)
+----
+
+
+== 特性
+
+.已实现
+* 支持渲染目录模板
+* 支持命令行模式（依赖 JRE）
+
+.待实现
+* 支持基于 https://www.graalvm.org/22.1/reference-manual/native-image/[GraalVM^] 的原生命令行模式（不依赖 JRE）

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ls -l quick-start >../shell-log/quick-start-ls.txt
+sed -i "" "s|total 0||g" ../shell-log/quick-start-ls.txt
+sed -i "" "s|->.*||g" ../shell-log/quick-start-ls.txt
+
+tree antora >../shell-log/antora.txt
+tree antora-module >../shell-log/antora-module.txt
+cd ../results || exit
+tree learn >../shell-log/learn.txt
+tree learn-redis >../shell-log/learn-redis.txt
+#sed -i "" "s|-learn|learn|g" ../shell-log/learn-redis.txt
+#sed -i "" "s|../results/||g" ../shell-log/*

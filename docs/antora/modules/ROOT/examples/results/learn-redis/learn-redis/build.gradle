@@ -1,0 +1,7 @@
+plugins {
+    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}"
+}
+
+group "com.github.peacetrue.learn.redis"
+version "${learnRedisVersion}${tailSnapshot}"
+description "记录学习 Redis 的过程"

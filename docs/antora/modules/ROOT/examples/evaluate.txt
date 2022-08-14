@@ -1,0 +1,22 @@
+NAME
+        evaluate - 渲染目录模板
+
+SYNOPSYS
+        evaluate [[-t] string]  [[-v] string]  [[-o] string]  [[-r] string]
+
+OPTIONS
+        -t or --templateLocation  string
+                目录模板位置。文件路径使用 file:/path/to/template，绝对路径以 / 起始，否则为相对路径，相对路径基于执行 java 命令时所在的目录；类路径使用 classpath:path/to/template，注意不要以 / 起始
+                [Optional, default = file:template]
+
+        -o or --optionsLocation  string
+                选项属性文件位置。从 properties 文件中读取选项，文件路径规则同上
+                [Optional, default = file:options.properties]
+
+        -v or --variablesLocation  string
+                变量属性文件位置。从 properties 文件中读取变量，文件路径规则同上。支持多个位置，使用逗号分割，例如：file:variables.properties,file:variables1.properties
+                [Optional, default = file:variables.properties]
+
+        -r or --resultPath  string
+                结果路径。直接是文件路径，例如：/path/to/result，相对路径规则同上
+                [Optional, default = result]

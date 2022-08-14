@@ -1,0 +1,10 @@
+name: learn
+title: 学习
+version: master
+asciidoc:
+  attributes:
+    numbered: '@'
+    app-name: learn
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc

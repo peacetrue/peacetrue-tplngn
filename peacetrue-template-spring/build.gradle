@@ -1,0 +1,12 @@
+description "Spring 扩展"
+
+dependencies {
+    api project(":peacetrue-template-engine")
+    compileOnly project(":peacetrue-template-velocity")
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure"
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation project(":peacetrue-template-velocity")
+}

@@ -1,0 +1,1 @@
+../../partials/antora-module-variable.adoc

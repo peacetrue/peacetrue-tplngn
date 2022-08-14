@@ -1,0 +1,236 @@
+= 开发指南
+
+//@formatter:off
+
+== 类库
+
+组件中包含的类库如下：
+
+.Gradle
+[source%nowrap,gradle,subs="specialchars,attributes"]
+----
+// 目录模板引擎
+implementation "com.github.peacetrue.template:peacetrue-template-engine:{latest-version}"
+// 使用 Velocity 实现的模板引擎
+implementation "com.github.peacetrue.template:peacetrue-template-velocity:{latest-version}"
+// 支持 Spring Boot 自动装配
+implementation "com.github.peacetrue.template:peacetrue-template-spring:{latest-version}"
+// 支持命令行调用
+implementation "com.github.peacetrue.template:peacetrue-template-shell:{latest-version}"
+----
+
+{latest-version} 为最新版。
+
+[[DirectoryTemplateEngine]]
+== 目录模板引擎
+
+目录模板引擎（`DirectoryTemplateEngine`）用于渲染指定位置的目录模板，并在指定路径处生成结果。
+
+[[DirectoryTemplateEngineParams]]
+=== 参数说明
+
+渲染接口包含 4 个参数：
+
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|templateLocation
+|目录模板位置
+|字符串
+|使用 <<ConditionalResourcesLoader,ConditionalResourcesLoader>> 加载
+
+|options
+|选项
+|<<Options>>
+|
+
+|variables
+|变量
+|键值对
+|
+
+|resultPath
+|结果路径
+|字符串
+|生成结果所在目录路径
+|===
+
+[[Options]]
+.选项
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|resourceActions
+|资源操作
+|<<ResourceActions>>
+|
+|===
+
+[[ResourceActions]]
+.资源操作
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|ignore
+|忽略
+|字符串
+|
+
+|evaluateResourcePath
+|渲染资源路径
+|字符串
+|
+
+|evaluateResourceContent
+|渲染资源内容
+|字符串
+|
+
+|copyResourceContent
+|拷贝资源内容
+|字符串
+|
+|===
+
+上述属性值均为 Java 正则表达式，根据资源路径，采用局部匹配模式，筛选资源，执行不同的操作。
+
+Java 正则表达式的匹配模式包括：
+
+全词匹配::
+规则匹配整个字符串，例如：
+* `.*\.log` 匹配 `spring-shell.log`
+* `log$` 不匹配 `spring-shell.log`
+局部匹配::
+规则匹配部分字符串，例如：
+* `.*\.log` 匹配 `spring-shell.log`
+* `log` 匹配 `spring-shell.log`
+* `^log$` 不匹配 `spring-shell.log`
+
+=== 默认实现类
+
+目录模板引擎的默认实现类为 `DirectoryTemplateEngineImpl`，
+执行逻辑如下：
+
+.目录模板引擎渲染时序图
+[plantuml,DirectoryTemplateEngineFlow,format=png]
+----
+@startuml
+autonumber
+客户端 -> 目录模板引擎: 渲染目录模板
+目录模板引擎 -> 资源集合加载器: 获取目录模板下资源集合
+目录模板引擎 <- 资源集合加载器: 返回资源集合
+loop 循环处理资源
+    alt 资源路径匹配 ignore
+        目录模板引擎 -> 目录模板引擎: 忽略
+    else 其他
+        alt 资源路径匹配 evaluateResourcePath
+            目录模板引擎 -> 常规模板引擎: 渲染资源路径
+            常规模板引擎 -> 常规模板引擎: 生成结果
+            目录模板引擎 <- 常规模板引擎: 返回
+        end
+        alt 资源路径匹配 evaluateResourceContent
+            目录模板引擎 -> 常规模板引擎: 渲染资源内容
+            常规模板引擎 -> 常规模板引擎: 生成结果
+            目录模板引擎 <- 常规模板引擎: 返回
+        else 资源路径匹配 copyResourceContent
+            目录模板引擎 -> 目录模板引擎: 拷贝资源内容到结果
+        else 其他
+            目录模板引擎 -> 目录模板引擎: 不做处理
+        end
+    end
+    note right
+      使用 Java 正则表达式，
+      根据资源路径，匹配资源，
+      执行不同的操作
+    end note
+end
+
+客户端 <- 目录模板引擎: 返回
+@enduml
+----
+
+渲染资源路径时，如果变量为路径，会生成多个目录。
+例如：xref:samples/antora-module.adoc#evaluateResourcePath[渲染资源路径]。
+
+=== 默认实例
+
+组件中默认使用的目录模板引擎实例为：`velocityDirectoryTemplateEngine`。
+该实例会忽略默认的变量描述文件 *VARIABLE.adoc*；
+渲染以 *.vm* 结尾的模板文件，例如：*index.adoc.vm* 渲染为 *index.adoc*；
+拷贝其他文件。
+
+== 资源集合加载器
+
+资源集合加载器（`ResourcesLoader`）用于获取目录模板下指定资源。
+资源（`Resource`）中包含路径和内容。
+//区别于 Spring 的 `ResourceLoader`，它只能获取单个资源。
+
+组件内置了 3 个实现：
+
+[[ConditionalResourcesLoader]]
+`ConditionalResourcesLoader`::
+条件性资源集合加载器，根据位置前缀选择合适的资源集合加载器：
+. `file:` : `FileSystemResourcesLoader`
+. `classpath:` : `ClasspathResourcesLoader`
+`FileSystemResourcesLoader`::
+文件系统资源集合加载器，支持从文件系统加载目录或压缩包。
+压缩包只支持 zip 包（路径以 .zip 结尾）或 jar 包（路径以 .jar 结尾）。
+不支持其他格式，因为 Java 原生只提供了 zip 包和 jar 包的解析，
+如果是其他格式的压缩包，请自行转换格式。
+
+////
+压缩包需遵循 *包名与目录名相同的约定*：
+
+.zip
+image::image-2022-08-10-06-54-28-654.png[]
+
+.jar
+image::image-2022-08-10-06-57-15-764.png[]
+////
+
+
+`ClasspathResourcesLoader`::
+类路径资源集合加载器，支持从类路径加载资源。
+
+== 模板引擎
+
+模板引擎（`TemplateEngine`）是一个接口，用于避免直接依赖具体模板引擎。内置了 1 个实现：
+
+* `VelocityTemplateEngine`：基于 https://velocity.apache.org/[Velocity^] 实现的模板引擎
+//* `FreeMarkTemplateEngine`：基于 https://freemarker.apache.org/[FreeMark^] 实现的模板引擎
+
+开发者也可自定义其他实现，例如：基于 https://freemarker.apache.org/[FreeMark^] 实现。
+
+=== `VelocityTemplateEngine`
+
+`VelocityTemplateEngine` 默认启用了 https://velocity.apache.org/tools/3.1/index.html[Velocity 工具^] 支持。
+同时，笔者还扩展了 Velocity 工具，也集成在了组件中。
+
+== 命令行
+
+为了方便使用目录模板引擎，提供了基于命令行的调用方式。
+使用命令行，需要下载 link:{attachmentsdir}/templates/template-engine.jar[目录模板引擎类库^]。
+下载完成后，会得到一个 template-engine.jar。
+
+命令行使用的参数与 <<DirectoryTemplateEngineParams,目录模板引擎参数>> 类似，
+因为命令行无法直接传递对象参数（选项和变量），
+所以对象参数改成了一个指向属性文件的位置，
+读取属性文件内容，解析为对象。
+
+渲染命令接口如下：
+
+[source%nowrap,bash]
+----
+# 启动命令行
+$ java -jar template-engine.jar
+
+# 查看渲染命令
+shell:> help evaluate
+
+include::example$evaluate.txt[]
+----
+
+具体调用示例可参考 xref:manual.adoc#_命令行[用户手册]。

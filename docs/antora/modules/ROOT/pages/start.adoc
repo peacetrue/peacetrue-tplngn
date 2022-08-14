@@ -1,0 +1,111 @@
+= 入门
+
+本文用于指导读者通过命令行使用 *目录模板引擎*。
+
+//@formatter:off
+
+== 下载
+
+下载 link:{attachmentsdir}/templates/quick-start.zip[入门示例^]，得到 quick-start.zip。
+
+== 渲染
+
+执行以下命令：
+
+[source%nowrap,bash,subs="specialchars,attributes"]
+----
+# 解压 quick-start.zip
+$ unzip quick-start.zip
+$ cd quick-start
+
+# 查看文件列表
+$ ls -l
+include::example$shell-log/quick-start-ls.txt[]
+
+# 启动命令行
+$ java -jar template-engine.jar
+
+# 执行渲染命令
+shell:> evaluate -t file:antora -o file:antora-options.properties -v file:antora-variables.properties -r learn
+
+# 退出命令行
+shell:> quit
+----
+
+点击查看 xref:develop.adoc#_命令行[渲染命令参数详解]。
+
+== 对比
+
+=== 对比文件结构
+
+对比目录模板文件结构和生成结果文件结构，观察两者间的差异：
+
+[source%nowrap,bash,subs="specialchars,attributes"]
+----
+# 查看目录模板文件结构
+$ tree antora
+include::example$shell-log/antora.txt[]
+
+# 查看生成结果文件结构
+$ tree learn
+
+include::example$shell-log/learn.txt[]
+----
+
+. README.adoc.vm 变成 README.adoc
+. antora.yml.vm 变成 antora.yml
+. index.adoc.vm 变成 index.adoc
+. local.adoc 在结果中不存在
+. 其他文件两者相同
+
+=== 对比 README.adoc.vm
+
+[source%nowrap,bash]
+----
+$ cat antora/README.adoc.vm
+
+include::example$templates/antora/README.adoc.vm[]
+
+$ cat learn/README.adoc
+
+include::example$results/learn/README.adoc[]
+----
+
+=== 对比 antora.yml.vm
+
+[source%nowrap,bash]
+----
+$ cat antora/docs/antora/antora.yml.vm
+
+include::example$templates/antora/docs/antora/antora.yml.vm[]
+
+$ cat learn/docs/antora/antora.yml
+
+include::example$results/learn/docs/antora/antora.yml[]
+----
+
+=== 对比 index.adoc.vm
+
+[source%nowrap,bash]
+----
+$ cat antora/docs/antora/modules/ROOT/pages/index.adoc.vm
+
+include::example$templates/antora/docs/antora/modules/ROOT/pages/index.adoc.vm[]
+
+$ cat learn/docs/antora/antora.yml
+
+include::example$results/learn/docs/antora/modules/ROOT/pages/index.adoc[]
+----
+
+== 变量
+
+模板中占位符的值，都是从变量属性文件中读取的。
+
+查看变量属性文件：
+
+.antora-variables.properties
+[source%nowrap,bash]
+----
+$ cat antora-variables.properties
+include::example$templates/antora-variables.properties[]
+----

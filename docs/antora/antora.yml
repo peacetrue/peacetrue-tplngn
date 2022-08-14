@@ -1,0 +1,12 @@
+name: peacetrue-template
+title: 目录模板引擎
+version: master
+asciidoc:
+  attributes:
+    numbered: '@'
+    website: https://peacetrue.github.io
+    app-name: peacetrue-template
+    latest-version: 1.0.0
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc

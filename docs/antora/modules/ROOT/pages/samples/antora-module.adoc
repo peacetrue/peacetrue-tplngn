@@ -1,0 +1,51 @@
+= Antora 模块目录模板
+
+//@formatter:off
+
+*Antora 模块目录模板* 用于在 *Antora 资源库* 中创建一个模块。
+*Antora 资源库* 是基于 xref:samples/antora.adoc[] 创建的资源库。
+
+== 文件结构
+
+*Antora 模块目录模板* 文件结构如下：
+[source%nowrap,tree]
+----
+include::example$shell-log/antora-module.txt[]
+----
+
+== 变量说明
+
+*Antora 模块目录模板* 中使用到的变量如下：
+
+include::partial$antora-module-variable.adoc[tag=content]
+
+== 压缩包内容
+
+[source%nowrap,log]
+----
+include::example$shell-log/antora-module-ls.txt[]
+----
+
+下载 link:{attachmentsdir}/templates/antora-module.zip[antora-module.zip^]。
+
+== 生成结果
+
+生成结果文件结构如下：
+
+[source%nowrap,log]
+----
+include::example$shell-log/learn-redis.txt[]
+----
+
+[[evaluateResourcePath]]
+文件名中变量为路径时，会生成多个目录。
+例如：`${clazz.path(${repository.packageName})}`，生成结果文件结构为：
+
+[source%nowrap,log]
+----
+└── com
+  └── github
+      └── peacetrue
+          └── learn
+----
+

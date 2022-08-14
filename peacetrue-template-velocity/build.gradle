@@ -1,0 +1,9 @@
+description "Velocity 模板引擎"
+
+dependencies {
+    api project(":peacetrue-template-engine")
+    compileOnly "com.github.peacetrue:peacetrue-common"
+    implementation "com.github.peacetrue:peacetrue-velocity"
+    implementation "org.apache.velocity:velocity-engine-core"
+    implementation "org.apache.velocity.tools:velocity-tools-generic"
+}

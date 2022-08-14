@@ -1,0 +1,83 @@
+= 内部操作
+
+此文档不对外，记录一些资源库自身的构建操作。
+
+== README.adoc 和 index.adoc 同步
+
+GitHub 资源库的 README.adoc 和 Antora 的文档，
+在内容上存在重复。
+
+以 Antora 文档为主，将 README.adoc 软链接到 index.adoc：
+
+[source%nowrap,bash]
+----
+$ ln -s docs/antora/modules/ROOT/pages/index.adoc.vm README.adoc.vm
+----
+
+index.adoc 中尽量避免使用与 Antora 相关的资源，
+因为 README.adoc 无法直接读取那些资源。
+为了保持两者展示效果的一致性，需要做一些额外处理。
+比如：index.adoc 中引用了图片，需要将图片硬链接到根目录下，
+这样 README.adoc 才能引用到：
+
+[source%nowrap,bash]
+----
+$ ln docs/antora/modules/ROOT/assets/images/antora-compare.png antora-compare.png
+----
+
+== examples 和 attachments 同步
+
+examples 可以被引用，attachments 可以被下载，
+保持两者一致，使 attachments 链接到 examples：
+
+[source%nowrap,bash]
+----
+$ cd docs/antora/modules/ROOT/assets/attachments
+$ ln -s templates ../../examples/templates
+----
+
+== antora-variable.adoc、antora-module-variables.properties 同步
+
+xref:samples/antora.adoc[] 中，使用到了 antora-variable.adoc；
+templates 中使用到了 antora-variable.adoc；
+
+[source%nowrap,bash]
+----
+$ cd docs/antora/modules/ROOT/examples/templates
+$ ln -s ../../partials/antora-variable.adoc antora-variable.adoc
+$ ln -s ../../partials/antora-module-variable.adoc antora-module-variable.adoc
+----
+
+== 文档自动更新
+
+资源库中文件结构或内容更改后，需要同步更新文档。
+如果使用人工的方式，维护难度很大；
+使用自动的方式，需要精心设计同步机制。
+
+== QuickStart
+
+
+
+== 前言
+
+使用 gradle 描述依赖，不赘述 maven 的方式。
+
+
+== 待办
+
+* 单元测试徽章 未点亮
+* 关于组件的命名，想想同为模板引擎的 Velocity 和 FreeMark，再想想 peacetrue-template，就知道这是多么偷懒地行为
+* template-engine.jar 文件太大
+* quick-start.zip 无法下载
+* antora-variable.adoc vs antora-variables.properties
+
+== 验证快速入门
+
+[source%nowrap,bash]
+----
+$ cd /Users/xiayx/Downloads
+$ cd /Users/xiayx/Downloads/quick-start/
+$ rm -rf quick-start*
+$ java -cp template-engine.jar:quick-start.zip org.springframework.boot.loader.JarLauncher
+$ evaluate -t classpath:antora -o classpath:antora-options.properties -v classpath:antora-variables.properties -r learn
+----
