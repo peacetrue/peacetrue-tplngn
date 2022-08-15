@@ -207,7 +207,7 @@ image::image-2022-08-10-06-57-15-764.png[]
 === `VelocityTemplateEngine`
 
 `VelocityTemplateEngine` 默认启用了 https://velocity.apache.org/tools/3.1/index.html[Velocity 工具^] 支持。
-同时，笔者还扩展了 Velocity 工具，也集成在了组件中。
+同时，笔者还扩展了 Velocity 工具，也集成在了组件中，详情参考 https://oss.sonatype.org/service/local/repositories/releases/archive//com/github/peacetrue/peacetrue-velocity/1.0.0/peacetrue-velocity-1.0.0-javadoc.jar/!/index.html[javadoc^]。
 
 == 命令行
 
