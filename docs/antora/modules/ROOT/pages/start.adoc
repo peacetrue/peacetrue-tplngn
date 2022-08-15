@@ -55,7 +55,6 @@ include::example$shell-log/learn.txt[]
 . README.adoc.vm 变成 README.adoc
 . antora.yml.vm 变成 antora.yml
 . index.adoc.vm 变成 index.adoc
-. local.adoc 在结果中不存在
 . 其他文件两者相同
 
 === 对比 README.adoc.vm
